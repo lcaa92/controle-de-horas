@@ -1,0 +1,5 @@
+- Clone project
+- Copy .env.example to .env and configure file
+- Run composer update
+- Run npm install
+- Run php artisan migrate
