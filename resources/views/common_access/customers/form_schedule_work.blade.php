@@ -38,12 +38,12 @@
                         
                         <div class="form-group">
                             <label for="start_time">Hora Inicio</label>
-                            <input type="text" class="form-control" id="start_time" name="start_time" placeholder="Hora Início" value="{{ isset($schedule->start_time) ? $schedule->start_time : old('start_time') }}" required>
+                            <input type="text" class="form-control datetime" id="start_time" name="start_time" placeholder="Hora Início" value="{{ isset($schedule->start_time) ? $schedule->start_time : old('start_time') }}" required>
                         </div>
 
                         <div class="form-group">
                             <label for="end_time">Hora Inicio</label>
-                            <input type="text" class="form-control" id="end_time" name="end_time" placeholder="Hora Termino" value="{{ isset($schedule->end_time) ? $schedule->end_time : old('end_time') }}" required>
+                            <input type="text" class="form-control datetime" id="end_time" name="end_time" placeholder="Hora Termino" value="{{ isset($schedule->end_time) ? $schedule->end_time : old('end_time') }}" required>
                         </div>
 
                         @if ($customer->workschedules->count() > 0)
@@ -66,4 +66,17 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+window.onload = function(e){ 
+    flatpickr(".datetime", {
+        enableTime: true,
+        altFormat: "d/m/Y H:i",
+        dateFormat: "Y-m-d H:i:00",
+        time_24hr: true
+    });
+}
+</script>
 @endsection
