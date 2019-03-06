@@ -77,7 +77,6 @@
             fetchData(url) {
                 axios.get(this.fetchUrl)
                 .then((res) => {
-                    console.log(res.data)
                     this.cols = res.data.columns
                     this.rows = res.data.rows
                 })
