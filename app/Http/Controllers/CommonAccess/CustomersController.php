@@ -341,13 +341,10 @@ class CustomersController extends Controller
 
     public function listSchedulesWork($customer_id = null){
         try{
-            $data = WorkSchedule::select('id', DB::raw('CASE WHEN type = 1 THEN "HORAS DIARIAS" WHEN type = 2 THEN "PREÇO POR HORA" END as "type"'), 'description', DB::raw('IFNULL(hours_per_day, price_per_day) as value'))
-            ->where('customer_id', '=', $customer_id)
-            ->get();
-
             $data = SchedulesWorked::select('schedules_worked.id', 'schedules_worked.start_time', 'schedules_worked.end_time', 'work_schedule.description as description_workschedule')
             ->leftJoin('work_schedule', 'schedules_worked.work_schedule_id', '=', 'work_schedule.id')
             ->where('schedules_worked.customer_id', '=', $customer_id)
+            ->orderBy('schedules_worked.start_time', 'desc')
             ->get();
 
             $columns = [
