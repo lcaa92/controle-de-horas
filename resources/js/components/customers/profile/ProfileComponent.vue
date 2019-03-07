@@ -23,7 +23,7 @@
                     <h6 v-else> N/A </h6>
                     <hr>
 
-                    <h5> Tipo Cliente: </h5>
+                    <h5> Documento Cliente: </h5>
                     <h6> {{ customer.customer_document ? customer.customer_document : 'N/A'}} </h6>
                     <hr>
 
@@ -46,7 +46,7 @@
             customer: Object
         },
         mounted() {
-            
+            console.log(this.customer)
         }
     }
 </script>
