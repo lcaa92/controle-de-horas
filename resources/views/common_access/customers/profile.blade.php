@@ -20,10 +20,10 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-sm">
             <customer-profile-component :customer='{!! json_encode($customer) !!}'></customer-profile-component>
         </div>
-        <div class="col-9">
+        <div class="col-md">
             <div class="card">
                 <div class="card-header">
                     Escalas de trabalho
