@@ -1845,7 +1845,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get(this.fetchUrl).then(function (res) {
-        console.log(res.data);
         _this.cols = res.data.columns;
         _this.rows = res.data.rows;
       }).catch(function (res) {

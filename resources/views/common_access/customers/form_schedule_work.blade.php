@@ -69,14 +69,7 @@
 @endsection
 
 @section('scripts')
-<script>
-window.onload = function(e){ 
-    flatpickr(".datetime", {
-        enableTime: true,
-        altFormat: "d/m/Y H:i",
-        dateFormat: "Y-m-d H:i:00",
-        time_24hr: true
-    });
-}
-</script>
+
+<script src="{{ asset('js/form_schedule_work.js') }}" defer></script>
+
 @endsection

@@ -13,7 +13,7 @@
     @yield('dtfilters_scripts')
     <script src="{{ asset('js/app.js') }}" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> -->
 
     @yield('scripts')
 
