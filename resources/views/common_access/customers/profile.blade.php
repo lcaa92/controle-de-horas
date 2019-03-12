@@ -20,7 +20,7 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-sm">
+        <div class="col-sm-3">
             <customer-profile-component :customer='{!! json_encode($customer) !!}'></customer-profile-component>
         </div>
         <div class="col-md">
