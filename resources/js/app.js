@@ -11,9 +11,6 @@ import $ from 'jquery';
 // window.$ = window.jQuery = $;
 window.$ = window.jQuery = require('jquery');
 
-import 'jquery-ui/ui/jquery-1-7.js';
-import 'jquery-ui/ui/widgets/datepicker.js';
-
 window.Vue = require('vue');
 
 /**
