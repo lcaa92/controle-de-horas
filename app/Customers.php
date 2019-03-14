@@ -63,4 +63,19 @@ class Customers extends Model
         return $this->hasMany('App\WorkSchedule', 'customer_id');
     }
 
+    public function summary_hours(){
+        // SELECT data, diff_time, time_day, diff_time-time_day as "tot_day"
+        //     FROM (
+        //         SELECT 
+        //             DATE(start_time) AS "data"
+        //             , SUM(TIMESTAMPDIFF(MINUTE, start_time, end_time)) AS "diff_time"
+        //             , sw.work_schedule_id  
+        //             , TRUNCATE((TIME_TO_SEC(ws.hours_per_day) / 60),0 ) AS "time_day"
+        //         FROM schedules_worked sw
+        //         LEFT JOIN work_schedule ws 
+        //             ON sw.work_schedule_id = ws.id   
+        //         GROUP BY DATE(start_time)
+        //     ) as tmp
+    }
+
 }
