@@ -22,6 +22,5 @@ $(document).ready(function(){
         dateFormat: "H:i",
         time_24hr: true,
         noCalendar: true,
-        defaultDate: "00:00"
     });
 })
