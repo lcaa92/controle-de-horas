@@ -13,6 +13,11 @@
         return '<a href="{{ route("form.schedule.worked", ["customer_id" => $customer->id]) }}/'+value+'">Editar</a>'
 
     }
+
+    window.dtfilters.link_edit_absence = function(value, obj){
+        return '<a href="{{ route("form.absence.permission", ["customer_id" => $customer->id]) }}/'+value+'">Editar</a>'
+
+    }
 </script>
 @endsection
 
