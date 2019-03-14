@@ -18,6 +18,11 @@
 
 @section('content')
 <div class="container">
+    @if (session('msg'))
+        <div class="alert alert-{{session('alert')}}">
+            {{ session('msg') }}
+        </div>
+    @endif
 
     <div class="row">
         <div class="col-sm-3">
@@ -44,6 +49,19 @@
 
                 <div class="card-body">
                     <data-table fetch-url="{{ route('list.schedule.work', ['customer_id'=>$customer->id]) }}"> </data-table>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="card">
+                <div class="card-header">
+                    Abonos
+                    <a class="float-right" href="{{ route('form.absence.permission', ['customer_id' => $customer->id]) }}"> Adicionar abono</a>
+                </div>
+
+                <div class="card-body">
+                    <data-table fetch-url="{{ route('list.absence.permission', ['customer_id'=>$customer->id]) }}"> </data-table>
                 </div>
             </div>
 
