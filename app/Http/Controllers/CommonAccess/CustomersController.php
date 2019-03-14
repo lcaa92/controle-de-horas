@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\SchedulesWorked;
 use App\WorkSchedule;
+use App\AbsencePermission;
 use DB;
 
 class CustomersController extends Controller
@@ -411,5 +412,155 @@ class CustomersController extends Controller
                     400
                 );
         }
+    }
+
+    public function listAbsence_permission($customer_id = null){
+        try{
+            $data = AbsencePermission::select('absence_permission.id', 'absence_permission.date', 'absence_permission.hours_absence', 'absence_permission.description')
+            ->where('absence_permission.customer_id', '=', $customer_id)
+            ->orderBy('absence_permission.date', 'desc')
+            ->get();
+
+            $columns = [
+                [
+                    'id' => 0,
+                    'label' => 'Data',
+                    'value' => 'date'
+                ],
+                [
+                    'id' => 1,
+                    'label' => 'Horas',
+                    'value' => 'hours_absence'
+                ],
+                [
+                    'id' => 2,
+                    'label' => 'Descrição',
+                    'value' => 'description'
+                ],
+                [
+                    'id' => 4,
+                    'label' => 'Ações',
+                    'value' => 'actions',
+                    'sortable' => false
+                ]
+            ];
+
+            $rows = [];
+            foreach ($data as $absence) {
+                array_push($rows, [
+                    [
+                        'field' => 'date',
+                        'value' => $absence->date,
+                        'filter' => null
+                    ],
+                    [
+                        'field' => 'hours_absence',
+                        'value' => $absence->hours_absence,
+                        'filter' => null
+                    ],
+                    [
+                        'field' => 'description',
+                        'value' => $absence->description,
+                        'filter' => null
+                    ],
+                    [
+                        'field' => 'actions',
+                        'value' => $absence->id,
+                        'filter' => 'link_edit_absence'
+                    ],
+                ]);
+            }
+
+            return response()
+                ->json([
+                    'rows' => $rows,
+                    'columns' => $columns
+                    ],
+                    201
+                );
+        }catch(Exception $e){
+            return response()
+                ->json(
+                    ['message' => $e->getMessage() ],
+                    400
+                );
+        }
+    }
+
+    public function formAbsencePermission(Request $request, $customer_id = null, $absence_id = null){
+        $alert = null;
+        $msg = null;
+        $customer = null;
+        $absence = null;
+        try{
+            $customer = Customers::findOrFail($customer_id);
+
+            if ($absence_id){
+                $absence = AbsencePermission::findOrFail($absence_id);
+            }else{
+                $absence = new AbsencePermission();
+            }
+
+            return view('common_access.customers.form_absence_hours', [ 'customer' => $customer, 'absence' => $absence ]);
+        }catch(ModelNotFoundException $e){
+            $alert = 'danger';
+            $msg = 'Não foi possível localizar entidade para cadastrar abono. ' . $e->getMessage();
+        }catch(Exception $e){
+            $alert = 'danger';
+            $msg = 'Falha ao processar requisição para clientes ' . $e->getMessage();
+        }
+        
+        if ($customer){
+            return redirect()->route('profile.customers', ['customer_id' => $customer->id])->with('msg', $msg)->with('alert', $alert);
+        }
+        return redirect()->route('list.customers')->with('msg', $msg)->with('alert', $alert);
+    }
+
+    public function saveAbsencePermission(Request $request, $customer_id = null){
+        $alert = null;
+        $msg = null;
+        $customer = null;
+        $schedule = null;
+        try{
+            $customer = Customers::findOrFail($customer_id);
+            $user = Auth::user();
+            if ($request->id){
+                $absence = AbsencePermission::findOrFail($request->id);
+                $msg = 'Abono atualizado com sucesso';
+            }else{
+                $absence = new AbsencePermission();
+                $msg = 'Abono cadastrado com sucesso';
+            }
+
+            $request->request->add([
+                'user_id' => $user->id
+                ]);
+
+            $this->validate($request, $absence->rules);
+
+            $absence->date = $request->date;
+            $absence->hours_absence = $request->hours_absence;
+            $absence->description = $request->description;
+            $absence->user_id = $request->user_id;
+            $absence->customer_id = $request->customer_id;
+            $absence->save();
+
+            $alert = 'success';
+            
+            return redirect()->route('profile.customers', ['customer_id' => $customer->id])->with('msg', $msg)->with('alert', $alert);
+        }catch(ValidationException $e){
+            return redirect()->back()->withInput()->withErrors($e->errors());
+        }catch(ModelNotFoundException $e){
+            $alert = 'danger';
+            $msg = 'Não foi possível localizar entidade para cadastrar abono. ' . $e->getMessage();
+        }catch(Exception $e){
+            $alert = 'danger';
+            $msg = 'Falha ao processar requisição para formulário de abono. ' . $e->getMessage();
+        }
+        
+        if ($customer){
+            return redirect()->route('profile.customers', ['customer_id' => $customer->id])->with('msg', $msg)->with('alert', $alert);
+        }
+        return redirect()->route('list.customers')->with('msg', $msg)->with('alert', $alert);
     }
 }
