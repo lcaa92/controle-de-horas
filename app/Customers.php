@@ -64,18 +64,21 @@ class Customers extends Model
     }
 
     public function summary_hours(){
-        // SELECT data, diff_time, time_day, diff_time-time_day as "tot_day"
-        //     FROM (
-        //         SELECT 
-        //             DATE(start_time) AS "data"
-        //             , SUM(TIMESTAMPDIFF(MINUTE, start_time, end_time)) AS "diff_time"
-        //             , sw.work_schedule_id  
-        //             , TRUNCATE((TIME_TO_SEC(ws.hours_per_day) / 60),0 ) AS "time_day"
-        //         FROM schedules_worked sw
-        //         LEFT JOIN work_schedule ws 
-        //             ON sw.work_schedule_id = ws.id   
-        //         GROUP BY DATE(start_time)
-        //     ) as tmp
+        // SELECT data, work_time_day, time_day, absence_hours, work_time_day-time_day+absence_hours as "diff_time_day"
+        // FROM (
+        //     SELECT 
+        //         DATE(start_time) AS "data"
+        //         , SUM(TIMESTAMPDIFF(MINUTE, start_time, end_time)) AS "work_time_day"
+        //         , sw.work_schedule_id  
+        //         , TRUNCATE((TIME_TO_SEC(ws.hours_per_day) / 60),0 ) AS "time_day"
+        //         , IFNULL(TRUNCATE((TIME_TO_SEC(ap.hours_absence) / 60),0 ), 0) AS "absence_hours"
+        //     FROM schedules_worked sw
+        //     LEFT JOIN work_schedule ws 
+        //         ON sw.work_schedule_id = ws.id   
+        //     LEFT JOIN absence_permission ap
+        //         ON ap.date = DATE(sw.start_time)
+        //     GROUP BY DATE(start_time)
+        // ) as tmp
     }
 
 }
