@@ -25,6 +25,7 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth'] ], function (){
             Route::get('work_schedule/{customer_id?}', 'CommonAccess\CustomersController@listWorkSchedules')->name('list.work.schedule');
             Route::get('schedules_worked/{customer_id?}', 'CommonAccess\CustomersController@listSchedulesWork')->name('list.schedule.work');
             Route::get('absence_permission/{customer_id?}', 'CommonAccess\CustomersController@listAbsence_permission')->name('list.absence.permission');
+            Route::get('summary_hours/{customer_id?}', 'CommonAccess\CustomersController@listSummaryHours')->name('list.summary.hours');
         });
 
         Route::get('list', 'CommonAccess\CustomersController@listCustomers')->name('list.customers');
