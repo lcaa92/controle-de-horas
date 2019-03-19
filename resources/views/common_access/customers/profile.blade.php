@@ -63,21 +63,23 @@
            
             <br />
 
-            <div class="card">
-                <div class="card-header">
-                    Horários
-                    <a class="float-right" href="{{ route('form.schedule.worked', ['customer_id' => $customer->id]) }}"> Adicionar horário</a>
-                </div>
+            <div class="row" >
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            Horários
+                            <a class="float-right" href="{{ route('form.schedule.worked', ['customer_id' => $customer->id]) }}"> Adicionar horário</a>
+                        </div>
 
-                <div class="card-body">
-                    <data-table fetch-url="{{ route('list.schedule.work', ['customer_id'=>$customer->id]) }}"> </data-table>
-                </div>
+                        <div class="card-body">
+                            <data-table fetch-url="{{ route('list.schedule.work', ['customer_id'=>$customer->id]) }}"> </data-table>
+                        </div>
+                    </div>
+                </div> 
+                <div class="col">
+                    <summary-hours fetch-url="{{ route('list.summary.hours', ['customer_id' => $customer->id]) }}"></summary-hours>
+                </div>   
             </div>
-
-            <br />
-
-            
-
         </div>
     </div>
 
