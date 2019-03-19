@@ -46,7 +46,7 @@
             customer: Object
         },
         mounted() {
-            console.log(this.customer)
+            
         }
     }
 </script>
