@@ -27,6 +27,7 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('customer-profile-component', require('./components/customers/profile/ProfileComponent.vue').default);
 Vue.component('data-table', require('./components/DataTableComponent.vue').default);
+Vue.component('summary-hours', require('./components/customers/profile/SummaryHours').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
