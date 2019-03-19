@@ -563,4 +563,104 @@ class CustomersController extends Controller
         }
         return redirect()->route('list.customers')->with('msg', $msg)->with('alert', $alert);
     }
+
+    public function listSummaryHours(Request $request, $customer_id = null){
+        try{
+
+            $data = DB::select('
+                SELECT date, work_time_day, time_day, absence_hours, work_time_day-time_day+absence_hours as "diff_time_day"
+                FROM (
+                    SELECT 
+                        DATE(start_time) AS "date"
+                        , SUM(TIMESTAMPDIFF(MINUTE, start_time, end_time)) AS "work_time_day"
+                        , sw.work_schedule_id  
+                        , TRUNCATE((TIME_TO_SEC(ws.hours_per_day) / 60),0 ) AS "time_day"
+                        , IFNULL(TRUNCATE((TIME_TO_SEC(ap.hours_absence) / 60),0 ), 0) AS "absence_hours"
+                    FROM schedules_worked sw
+                    LEFT JOIN work_schedule ws 
+                        ON sw.work_schedule_id = ws.id   
+                    LEFT JOIN absence_permission ap
+                        ON ap.date = DATE(sw.start_time)
+                    WHERE sw.customer_id = :customer_id
+                    GROUP BY DATE(start_time)
+                    ORDER BY DATE(start_time) DESC
+                ) as summary_hours
+            ', [
+                'customer_id' => $customer_id
+            ]);
+
+            $columns = [
+                [
+                    'id' => 0,
+                    'label' => 'Data',
+                    'value' => 'date'
+                ],
+                [
+                    'id' => 1,
+                    'label' => 'Horario trabalhado (min)',
+                    'value' => 'work_time_day'
+                ],
+                [
+                    'id' => 2,
+                    'label' => 'Horario Diário (min)',
+                    'value' => 'time_day'
+                ],
+                [
+                    'id' => 3,
+                    'label' => 'Abonos (min)',
+                    'value' => 'absence_hours'
+                ],
+                [
+                    'id' => 3,
+                    'label' => 'Saldo',
+                    'value' => 'diff_time_day'
+                ]
+            ];
+
+            $rows = [];
+            foreach ($data as $summary) {
+                array_push($rows, [
+                    [
+                        'field' => 'date',
+                        'value' => $summary->date,
+                        'filter' => null
+                    ],
+                    [
+                        'field' => 'work_time_day',
+                        'value' => $summary->work_time_day,
+                        'filter' => null
+                    ],
+                    [
+                        'field' => 'time_day',
+                        'value' => $summary->time_day,
+                        'filter' => null
+                    ],
+                    [
+                        'field' => 'absence_hours',
+                        'value' => $summary->absence_hours,
+                        'filter' => null
+                    ],
+                    [
+                        'field' => 'diff_time_day',
+                        'value' => $summary->diff_time_day,
+                        'filter' => null
+                    ],
+                ]);
+            }
+
+            return response()
+                ->json([
+                    'rows' => $rows,
+                    'columns' => $columns
+                    ],
+                    201
+                );
+        }catch(Exception $e){
+            return response()
+                ->json(
+                    ['message' => $e->getMessage() ],
+                    400
+                );
+        }
+    }
 }
