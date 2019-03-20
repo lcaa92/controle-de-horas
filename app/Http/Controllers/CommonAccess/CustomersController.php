@@ -685,6 +685,7 @@ class CustomersController extends Controller
                     GROUP BY DATE(start_time)
                     ORDER BY DATE(start_time) DESC
                 ) as summary_hours
+                ORDER BY date ASC
             ', [
                 'customer_id' => $customer_id
             ]);
