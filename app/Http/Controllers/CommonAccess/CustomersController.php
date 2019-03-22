@@ -568,7 +568,7 @@ class CustomersController extends Controller
         try{
 
             $data = DB::select('
-                SELECT date, work_time_day, time_day, absence_hours, work_time_day-time_day+absence_hours as "diff_time_day"
+                SELECT ' . DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date') . ', work_time_day, time_day, absence_hours, (work_time_day-time_day+absence_hours)/60 as "diff_time_day"
                 FROM (
                     SELECT 
                         DATE(start_time) AS "date"
@@ -668,7 +668,7 @@ class CustomersController extends Controller
         try{
 
             $data = DB::select('
-                SELECT date, work_time_day, time_day, absence_hours, work_time_day-time_day+absence_hours as "diff_time_day"
+                SELECT ' . DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date') . ', work_time_day, time_day, absence_hours, (work_time_day-time_day+absence_hours)/60 as "diff_time_day"
                 FROM (
                     SELECT 
                         DATE(start_time) AS "date"
@@ -685,7 +685,7 @@ class CustomersController extends Controller
                     GROUP BY DATE(start_time)
                     ORDER BY DATE(start_time) DESC
                 ) as summary_hours
-                ORDER BY date ASC
+                ORDER BY ' . DB::raw('DATE_FORMAT(date, "%Y-%m-%d")') . ' ASC
             ', [
                 'customer_id' => $customer_id
             ]);
