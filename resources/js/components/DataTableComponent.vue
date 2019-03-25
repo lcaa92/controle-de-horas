@@ -51,7 +51,8 @@
 <script>
     export default {
         props:{
-            fetchUrl: { type: String, required: true }
+            fetchUrl: { type: String, required: false },
+            fetchColsRows: { type: Object, required: false }
         },
         data: function (){
             return {
@@ -71,7 +72,16 @@
             }
         },
         mounted() {
-            this.fetchData()
+
+            if (this.fetchUrl){
+                this.fetchData()
+            }
+
+            if (this.fetchColsRows){
+                this.cols = this.fetchColsRows.columns
+                this.rows = this.fetchColsRows.rows
+                console.log("Object 123 :", this.fetchColsRows)
+            }
         },
         methods:{
             fetchData(url) {

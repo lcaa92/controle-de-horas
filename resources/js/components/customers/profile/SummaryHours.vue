@@ -5,7 +5,7 @@
             <div class="card-body">
                 <canvas id="myChart" width="400" height="400"></canvas>
 
-                <data-table ref="dataTableComponent" :fetch-url="fetchUrl"> </data-table>
+                <data-table ref="dataTableComponent" :fetch-cols-rows="arrDataTable" > </data-table>
             </div>
         </div>
         
@@ -22,6 +22,10 @@
         },
         data: function () {
             return {
+                arrDataTable: {
+                    cols: [],
+                    rows: []
+                },
                 chartConfig: {
                     labels: [],
                     data: [],
@@ -31,8 +35,25 @@
         },
         mounted() {
             this.fetchChartData()
+            this.fetchData()
         },
         methods: {
+            fetchData(url) {
+                axios.get(this.fetchUrl)
+                .then((res) => {
+                    this.$refs.dataTableComponent.cols = res.data.columns
+                    this.$refs.dataTableComponent.rows = res.data.rows
+                    // this.arrDataTable.cols = res.data.columns
+                    // this.arrDataTable.rows = res.data.rows
+                })
+                .catch((res) => {
+                    if(res instanceof Error) {
+                    console.log(res.message);
+                    } else {
+                    console.log(res.data);
+                    }
+                });
+            },
             fetchChartData() {
                 axios.get(this.chartUrlData)
                 .then((res) => {
@@ -40,7 +61,6 @@
                     let data = res.data.data
                     this.chartConfig.data = data.map(el => el.diff_time_day)
                     this.chartConfig.labels = data.map(el => el.date)
-                    console.log(this.chartConfig)
                     this.createChart('myChart', {
                         type: 'line',
                         data: {
