@@ -80,7 +80,6 @@
             if (this.fetchColsRows){
                 this.cols = this.fetchColsRows.columns
                 this.rows = this.fetchColsRows.rows
-                console.log("Object 123 :", this.fetchColsRows)
             }
         },
         methods:{

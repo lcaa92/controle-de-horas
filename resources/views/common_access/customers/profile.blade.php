@@ -77,7 +77,7 @@
                     </div>
                 </div> 
                 <div class="col">
-                    <summary-hours chart-url-data="{{ route('chart.summary.hours', ['customer_id' => $customer->id]) }}" fetch-url="{{ route('list.summary.hours', ['customer_id' => $customer->id]) }}"></summary-hours>
+                    <summary-hours fetch-url="{{ route('list.summary.hours', ['customer_id' => $customer->id]) }}"></summary-hours>
                 </div>   
             </div>
         </div>
