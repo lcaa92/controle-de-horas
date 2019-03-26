@@ -3,6 +3,32 @@
         <div class="card card-default">
             <div class="card-header">Extrato de horas</div>
             <div class="card-body">
+
+                <div class="form-row">
+                    <div class="col-5">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupPrepend">De</span>
+                            </div>
+                            <input type="text" class="form-control date" id="date_begin" placeholder="De">
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupPrepend">Até</span>
+                            </div>
+                            <input type="text" class="form-control date" id="date_end" placeholder="Até" required>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="input-group">
+                            <button class="btn btn-primary" type="submit" v-on:click="fetchData">Buscar</button>
+                        </div>
+                    </div>
+                </div>
+                
+
                 <canvas id="myChart" width="400" height="400"></canvas>
 
                 <data-table ref="dataTableComponent" :fetch-cols-rows="arrDataTable" > </data-table>
@@ -14,6 +40,7 @@
 <script>
     import DataTable from '../../DataTableComponent'
     import Chart from 'chart.js';
+    import flatpickr from "flatpickr";
     export default {
         name: 'SummaryHours',
         props:{
@@ -34,6 +61,15 @@
         },
         mounted() {
             this.fetchData()
+
+            flatpickr(".date", {
+                enableTime: false,
+                altInput: true,
+                altFormat: "d/m/Y",
+                dateFormat: "Y-m-d",
+                time_24hr: true
+            });
+
         },
         methods: {
             fetchData(url) {
