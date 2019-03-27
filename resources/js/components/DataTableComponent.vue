@@ -52,12 +52,11 @@
     export default {
         props:{
             fetchUrl: { type: String, required: false },
-            fetchColsRows: { type: Object, required: false }
+            cols: { type: Array, required: false },
+            rows: { type: Array, required: false },
         },
         data: function (){
             return {
-                cols: [],
-                rows: [],
                 rows_filtered: [],
                 status: {
                     class: null,
@@ -72,14 +71,8 @@
             }
         },
         mounted() {
-
             if (this.fetchUrl){
                 this.fetchData()
-            }
-
-            if (this.fetchColsRows){
-                this.cols = this.fetchColsRows.columns
-                this.rows = this.fetchColsRows.rows
             }
         },
         methods:{
