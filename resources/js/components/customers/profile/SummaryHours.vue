@@ -31,7 +31,7 @@
 
                 <canvas id="myChart" width="400" height="400"></canvas>
 
-                <data-table ref="dataTableComponent" :fetch-cols-rows="arrDataTable" > </data-table>
+                <data-table ref="dataTableComponent" :cols="arrDataTable.cols" :rows="arrDataTable.rows" > </data-table>
             </div>
         </div>
         
@@ -90,8 +90,10 @@
                     }
                 })
                 .then((res) => {
-                        this.$refs.dataTableComponent.cols = res.data.columns
-                    this.$refs.dataTableComponent.rows = res.data.rows
+                    // this.$refs.dataTableComponent.cols = res.data.columns
+                    // this.$refs.dataTableComponent.rows = res.data.rows
+                    this.arrDataTable.cols = res.data.columns
+                    this.arrDataTable.rows = res.data.rows
                     let data = res.data.rows
                     let arrData = []
                     let arrLabels = []
@@ -130,8 +132,6 @@
                             }
                         }
                     })
-                    // this.arrDataTable.cols = res.data.columns
-                    // this.arrDataTable.rows = res.data.rows
                 })
                 .catch((res) => {
                     if(res instanceof Error) {
