@@ -10,7 +10,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroupPrepend">De</span>
                             </div>
-                            <input type="text" class="form-control date" id="date_begin" placeholder="De">
+                            <input type="text" v-model="dateBegin" class="form-control date" id="date_begin" placeholder="De">
                         </div>
                     </div>
                     <div class="col-5">
@@ -18,7 +18,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroupPrepend">Até</span>
                             </div>
-                            <input type="text" class="form-control date" id="date_end" placeholder="Até" required>
+                            <input type="text" v-model="dateEnd" class="form-control date" id="date_end" placeholder="Até" required>
                         </div>
                     </div>
                     <div class="col-2">
@@ -44,7 +44,17 @@
     export default {
         name: 'SummaryHours',
         props:{
-            fetchUrl: { type: String, required: true }
+            fetchUrl: { type: String, required: true },
+            dateBegin: {
+                type: String,
+                required: false,
+                default: new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000) ).toISOString().slice(0,10)
+            },
+            dateEnd: {
+                type: String,
+                required: false,
+                default: new Date().toISOString().slice(0,10)
+            }
         },
         data: function () {
             return {
@@ -73,9 +83,14 @@
         },
         methods: {
             fetchData(url) {
-                axios.get(this.fetchUrl)
+                axios.get(this.fetchUrl, {
+                    params: {
+                        'begin_date': this.dateBegin,
+                        'end_date': this.dateEnd
+                    }
+                })
                 .then((res) => {
-                    this.$refs.dataTableComponent.cols = res.data.columns
+                        this.$refs.dataTableComponent.cols = res.data.columns
                     this.$refs.dataTableComponent.rows = res.data.rows
                     let data = res.data.rows
                     let arrData = []

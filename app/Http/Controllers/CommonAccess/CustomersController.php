@@ -567,6 +567,9 @@ class CustomersController extends Controller
     public function listSummaryHours(Request $request, $customer_id = null){
         try{
 
+            $begin_date = $request->begin_date ? $request->begin_date : date('Y-m-d');
+            $end_date = $request->end_date ? $request->end_date : date('Y-m-d');
+
             $data = DB::select('
                 SELECT ' . DB::raw('DATE_FORMAT(date, "%d/%m/%Y") as date') . ', work_time_day, time_day, absence_hours, (work_time_day-time_day+absence_hours)/60 as "diff_time_day"
                 FROM (
@@ -585,8 +588,11 @@ class CustomersController extends Controller
                     GROUP BY DATE(start_time)
                     ORDER BY DATE(start_time) DESC
                 ) as summary_hours
+                WHERE date BETWEEN :begin_date AND :end_date
             ', [
-                'customer_id' => $customer_id
+                'customer_id' => $customer_id,
+                'begin_date' => $begin_date,
+                'end_date' => $end_date,
             ]);
 
             $columns = [
