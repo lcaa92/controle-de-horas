@@ -28,8 +28,8 @@
                     <hr>
 
                     <h5> Tipo Contrato: </h5>
-                    <h6 v-if="customer.customer_type == 1"> Carteira Assinada </h6>
-                    <h6 v-if="customer.customer_type == 2"> Juridico </h6>
+                    <h6 v-if="customer.contract_type == 1"> Carteira Assinada </h6>
+                    <h6 v-else-if="customer.contract_type == 2"> Juridico </h6>
                     <h6 v-else> N/A </h6>
                     <hr>
                     
