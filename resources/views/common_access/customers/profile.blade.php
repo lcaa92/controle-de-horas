@@ -61,6 +61,20 @@
                         </div>
                     </div>
                 @endif
+                @if($customer->contract_type == 2)
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                Projetos
+                                <!-- <a class="float-right" href="{{ route('form.absence.permission', ['customer_id' => $customer->id]) }}"> Adicionar abono</a> -->
+                            </div>
+
+                            <div class="card-body">
+                                Listagem de projetos
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 <div class="col">
                     <div class="card">
                         <div class="card-header">
