@@ -30,7 +30,7 @@
     @endif
 
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-12 col-md-3">
             <customer-profile-component :customer='{!! json_encode($customer) !!}'></customer-profile-component>
         </div>
         <div class="col-md">
@@ -47,23 +47,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card">
-                        <div class="card-header">
-                            Abonos
-                            <a class="float-right" href="{{ route('form.absence.permission', ['customer_id' => $customer->id]) }}"> Adicionar abono</a>
-                        </div>
+                @if($customer->contract_type == 1)
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                Abonos
+                                <a class="float-right" href="{{ route('form.absence.permission', ['customer_id' => $customer->id]) }}"> Adicionar abono</a>
+                            </div>
 
-                        <div class="card-body">
-                            <data-table fetch-url="{{ route('list.absence.permission', ['customer_id'=>$customer->id]) }}"> </data-table>
+                            <div class="card-body">
+                                <data-table fetch-url="{{ route('list.absence.permission', ['customer_id'=>$customer->id]) }}"> </data-table>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-           
-            <br />
-
-            <div class="row" >
+                @endif
                 <div class="col">
                     <div class="card">
                         <div class="card-header">
@@ -76,10 +73,15 @@
                         </div>
                     </div>
                 </div> 
-                <div class="col">
-                    <summary-hours fetch-url="{{ route('list.summary.hours', ['customer_id' => $customer->id]) }}"></summary-hours>
-                </div>   
+                @if($customer->contract_type == 1)
+                    <div class="col">
+                        <summary-hours fetch-url="{{ route('list.summary.hours', ['customer_id' => $customer->id]) }}"></summary-hours>
+                    </div>   
+                @endif
             </div>
+           
+            <br />
+
         </div>
     </div>
 
