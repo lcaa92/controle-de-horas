@@ -35,7 +35,7 @@
         </div>
         <div class="col-md">
             <div class="row" >
-                <div class="col">
+                <div class="col-6">
                     <div class="card">
                         <div class="card-header">
                             Escalas de trabalho
@@ -47,8 +47,9 @@
                         </div>
                     </div>
                 </div>
+                <br />
                 @if($customer->contract_type == 1)
-                    <div class="col">
+                    <div class="col-6">
                         <div class="card">
                             <div class="card-header">
                                 Abonos
@@ -62,7 +63,7 @@
                     </div>
                 @endif
                 @if($customer->contract_type == 2)
-                    <div class="col">
+                    <div class="col-6">
                         <div class="card">
                             <div class="card-header">
                                 Projetos
@@ -75,7 +76,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="col">
+                <div class="col-6">
                     <div class="card">
                         <div class="card-header">
                             Horários
@@ -88,7 +89,7 @@
                     </div>
                 </div> 
                 @if($customer->contract_type == 1)
-                    <div class="col">
+                    <div class="col-6">
                         <summary-hours fetch-url="{{ route('list.summary.hours', ['customer_id' => $customer->id]) }}"></summary-hours>
                     </div>   
                 @endif
